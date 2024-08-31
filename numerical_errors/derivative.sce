@@ -37,7 +37,7 @@ function valor = derivative(f, v, n, h)
         for i=1:(n-1)
             deff("y=DF"+string(i)+"(x)", "y = numderivative(DF"+string(i-1)+", x,"+string(h)+", 4)");
         end
-        deff("y=DFn(x)","y = (DF"+string(n-1)+"(x+"+string(h)+")-DF"+string(n-1)+"(x))/"+string(h));
+        deff("y=DFn(x)","y=numderivative(DF"+string(n-1)+",x,"+string(h)+",4)");
         valor = DFn(v);       
     end
 endfunction
