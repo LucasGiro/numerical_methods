@@ -40,3 +40,12 @@ function c = find_c(f, deriv_value, a, b)
     c = (deriv_value-1)/numderivative(h, alpha);
     
 endfunction
+
+function alpha = graficar(f, a, b)
+    deff("y=h(x)", "y="+f); //x.^2 - 2*x
+    x = linspace(a, b, 1000);
+    y = h(x);
+    x0 = linspace(a, b, 1000);
+    y0 = linspace(a, b, 1000);
+    plot(x, y, x0, y0);
+endfunction
