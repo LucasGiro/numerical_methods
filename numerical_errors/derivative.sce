@@ -1,7 +1,3 @@
-function y = f(x)
-    y=sin(x);
-endfunction
-
 //calculo con diferencias finitas
 
 function valor = derivar(f, v, n, h)

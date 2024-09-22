@@ -31,5 +31,3 @@ function alpha = newton(f, x0, tol, iter, h)
     alpha = x1;
     
 endfunction
-
-//newton("(cos(x)*cosh(x))+1", -1.4, 0.0000000000000001)
