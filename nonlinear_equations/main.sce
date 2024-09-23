@@ -17,6 +17,12 @@ function alpha = convergencia(f, g, a, b)
     
     root = bisection(f, a, b, 0.000000001, 10000);
     
+    disp("la raiz encontrada con biseccion es: " + string(root));
+    
+    alpha2 = secant(f, a, b,  0.0000000000001, 10000);
+    
+    disp("la raiz encontrada con secante es: " + string(alpha2));
+    
     derivative_abs = abs(numderivative(t, root));
     
     if derivative_abs < 1 then
@@ -35,7 +41,13 @@ function c = find_c(f, deriv_value, a, b)
     
     deff("y=h(x)", "y="+f);
     
-    alpha = bisection(f, a, b, 0.000000001, 10000);
+    alpha = bisection(f, a, b, 0.0000000000001, 10000);
+    
+    disp("la raiz encontrada con biseccion es: " + string(alpha));
+    
+    alpha2 = secant(f, a, b,  0.0000000000001, 10000);
+    
+    disp("la raiz encontrada con secante es: " + string(alpha2));
     
     c = (deriv_value-1)/numderivative(h, alpha);
     
