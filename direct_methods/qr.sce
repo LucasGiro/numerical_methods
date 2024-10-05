@@ -1,11 +1,3 @@
-function s = suma_vec(A, Q, k)
-    
-    n = size(A, 1);
-    
-   
-    
-endfunction
-
 function [Q, R] = QR(A)
     
     n = size(A, 1);

@@ -128,3 +128,45 @@ function [C, d] = pivoteo_parcial(A, b)
     d = b;
     
 endfunction
+
+function s = tridiagonal(A, b)
+    
+    n = size(A, 1);
+    
+    s = zeros(n, size(b, 2));
+    
+    for k = 1:n-1
+        
+        //pivoteo
+        
+        if abs(A(k, k)) < abs(A(k+1, k)) then
+            
+            temp = A(k, :);
+            A(k, :) = A(k+1, :);
+            A(k+1, :) = temp;
+            temp = b(k, :);
+            b(k, :) = b(k+1, :);
+            b(k+1, :) = temp;
+            
+        end    
+        
+        //fin pivoteo
+        
+        m = A(k+1, k)/A(k, k);
+        
+        A(k+1, :) = A(k+1, :) - m * A(k, :);
+        
+        b(k+1, :) = b(k+1, :) - m * b(k, :);
+        
+    end
+    
+    s(n, :) = b(n, :)./A(n, n);
+    
+    for k = n-1:-1:1
+        
+        s(k, :) = (b(k, :) - A(k, k+1:$) * s(k+1:$, :))./A(k, k);
+        
+    end
+    
+endfunction
+
