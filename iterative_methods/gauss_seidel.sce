@@ -19,3 +19,25 @@ function s = Gauss_Seidel(A, b, iter)
     end
     
 endfunction
+
+function s = closed_Gauss_Seidel(A, b, iter)
+    
+    n = size(A, 1);
+    
+    L = tril(A);
+    U = triu(A);
+    D = diag(diag(A));
+    
+    inversa = inv(L+D);
+    
+    s = zeros(n, 1);
+    
+    for i = 1:iter
+        
+        s = inversa*b + (eye(n, n) - inversa*A)*s;
+        
+    end
+    
+endfunction
+
+
