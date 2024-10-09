@@ -1,22 +1,38 @@
-function s = Jacobi(A, b, iter)
+function x = Jacobi(A, b, x0, eps, iter)
     
     n = size(A, 1);
     
     s = zeros(n, 1);
     
+    x = x0;
+    
+    for i = 1:n
+            
+          x(i) = (b(i) - (A(i, :)*x0(:, 1) - A(i, i) * x0(i, 1)))/A(i, i);
+            
+    end
+    
     k = 0;
     
-    while k < iter
+    delta = norm(x - x0); 
+    
+    while delta > eps && k < iter
+        
+        x0 = x;
         
         for i = 1:n
             
-            s(i) = (b(i) - (A(i, :)*s(:, 1) - A(i, i) * s(i, 1)))/A(i, i);
+            x(i) = (b(i) - (A(i, :)*x0(:, 1) - A(i, i) * x0(i, 1)))/A(i, i);
             
         end
+        
+        delta = norm(x - x0);
         
         k = k + 1;    
          
     end
+    
+    disp("numero de iteraciones: " + string(k));
     
 endfunction
 
@@ -42,10 +58,6 @@ function I = inverse_diagonal(D)
     
     n = size(D, 1);
     
-    I = zeros(n, n);
-    
-    for k = 1:n
-        I(k, k) = 1/D(k, k);
-    end
+    I = diag(ones(n, 1)./diag(D));
     
 endfunction

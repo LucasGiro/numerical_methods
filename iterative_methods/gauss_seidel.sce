@@ -1,32 +1,55 @@
-function s = Gauss_Seidel(A, b, iter)
+function x = Gauss_Seidel(A, b, x0, eps, iter)
     
     n = size(A, 1);
     
-    s = rand(n, 1);
+    x = x0;
     
-    for k = 1:iter
+    x(1) = (b(1, 1) - A(1, 2:n) * x(2:n, 1))/A(1, 1);
         
-        s(1) = (b(1, 1) - A(1, 2:n) * s(2:n, 1))/A(1, 1);
+    for i = 2:n-1
+        
+        x(i) = (b(i) - A(i, 1:i-1) * x(1:i-1) - A(i, i+1:n) * x(i+1:n, 1))/A(i, i);
+    
+    end
+    
+    x(n) = (b(n) - A(n, 1:n-1) * x(1:n-1))/A(n, n);
+    
+    delta = norm(x - x0);
+    
+    k = 0;
+    
+    while delta > eps && k < iter
+        
+        x0 = x;
+        
+        x(1) = (b(1, 1) - A(1, 2:n) * x(2:n, 1))/A(1, 1);
         
         for i = 2:n-1
             
-            s(i) = (b(i) - A(i, 1:i-1) * s(1:i-1) - A(i, i+1:n) * s(i+1:n, 1))/A(i, i);
+            x(i) = (b(i) - A(i, 1:i-1) * x(1:i-1) - A(i, i+1:n) * x(i+1:n, 1))/A(i, i);
         
         end
     
-        s(n) = (b(n) - A(n, 1:n-1) * s(1:n-1))/A(n, n);    
+        x(n) = (b(n) - A(n, 1:n-1) * x(1:n-1))/A(n, n);    
+        
+        k = k + 1;
+        
+        delta = norm(x - x0);
         
     end
+    
+    disp("numero de iteraciones: " + string(k));
     
 endfunction
 
 function s = closed_Gauss_Seidel(A, b, iter)
     
     n = size(A, 1);
-    
-    L = tril(A);
-    U = triu(A);
+   
     D = diag(diag(A));
+    
+    L = tril(A) - D;
+    U = triu(A) - D;
     
     inversa = inv(L+D);
     
