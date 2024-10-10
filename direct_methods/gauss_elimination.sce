@@ -170,3 +170,11 @@ function s = tridiagonal(A, b)
     
 endfunction
 
+function x = solve_system(A, b)
+    
+    [C, d] = pivoteo_parcial(A, b);
+    
+    x = upper_triangular(C, d);
+    
+endfunction
+
