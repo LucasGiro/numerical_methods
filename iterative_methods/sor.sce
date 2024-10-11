@@ -41,3 +41,45 @@ function x = SOR(A, b, x0, w, eps, iter)
     disp("numero de iteraciones: " + string(k));
     
 endfunction
+
+function T = calculo_T(A, w)
+    
+    D = diag(diag(A));
+    
+    L = tril(A) - D;
+    
+    U = triu(A) - D;
+    
+    T = inv(D+w*L)*((1-w)*D-w*U);
+    
+endfunction
+
+function k = radio_espectral(A)
+    k = max(abs(spec(A)));
+endfunction
+
+function m = minimizar_radio_espectral(A, w, step, iter)
+    
+    T = calculo_T(A, w);
+    
+    min_r = radio_espectral(T);
+    
+    m = w;
+    
+    for i = 1:iter
+        
+        w = w-step;
+        
+        T = calculo_T(A, w);
+    
+        k = radio_espectral(T);
+        
+        if k < min_r then
+            min_r = k;
+            m = w;
+        end     
+        
+    end
+    
+endfunction
+
