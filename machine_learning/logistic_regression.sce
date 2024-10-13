@@ -27,7 +27,7 @@ function l = loss(X, Y, W, n, d, lambda)
     
 endfunction
 
-function W = linear_regression(X, Y, iter, alpha)
+function W = logistic_regression(X, Y, iter, alpha)
     
     d = size(X, 2);
     n = size(X, 1);
