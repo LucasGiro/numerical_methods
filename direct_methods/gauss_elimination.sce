@@ -1,68 +1,67 @@
-function solution = upper_triangular(A, b)
+function x = upper_triangular(A, b)
     
-    dim_A = size(A);
-    dim_b = size(b)
+    n = size(A, 1);
+    m = size(b, 2);
+    x = zeros(n, m);
     
-    if (dim_A(1) ~= dim_A(2)) then
+    if ~es_cuadrada(A) then
         disp("La matriz no es cuadrada");
-        solution = [];
+        x = [];
         return;
     end
     
-    solution = zeros(dim_A(1), dim_b(2));
+    x(n, :) = b(n, :)./A(n, n);
     
-    solution(dim_A(1), :) = b(dim_A(1), :)./A(dim_A(1), dim_A(1));
-    
-    for i = dim_A(1)-1:-1:1
-        
-        solution(i, :) = (1/A(i, i)) * (b(i, :) - A(i, i+1:$) * solution(i+1:$, :));
-        
+    for i = n-1:-1:1
+        x(i, :) = (b(i, :) - A(i, i+1:n) * x(i+1:n, :))./A(i, i);
     end
     
 endfunction
 
-function solution = lower_triangular(A, b)
+function x = lower_triangular(A, b)
     
-    dim_A = size(A);
+    [m, n] = size(A);
+    x = zeros(m, 1);
     
-    if (dim_A(1) ~= dim_A(2)) then
+    if ~es_cuadrada(A) then
         disp("La matriz no es cuadrada");
-        solution = [];
+        x = [];
         return;
     end
     
-    solution = zeros(dim_A(1), 1);
+    x(1) = b(1, 1) / A(1, 1);
     
-    solution(1) = b(1)/A(1, 1);
-    
-    for i = 2:dim_A(1)
-        
-        solution(i) = (1/A(i, i)) * (b(i) - A(i, 1:i-1) * solution(1:i-1));
-        
+    for i = 2:m
+        x(i) = (b(i, 1) - A(i, 1:i-1) * x(1:i-1, 1))/A(i, i);
     end
     
 endfunction
 
-function [C, d] = GaussElim(A, b)
+function [U, d] = GaussElim(A, b)
     
     n = size(A, 1);
     
-    for j = 1:n-1
+    if ~es_cuadrada(A) then
+        disp("La matriz no es cuadrada");
+        x = [];
+        return;
+    end
+    
+    for k = 1:n-1
         
-        for i = j+1:n
+        for i = k+1:n
             
-            m = A(i, j)/A(j, j);
+            m = A(i, k)/A(k, k);
             
-            A(i, :) = A(i, :) - m * A(j, :);
-            b(i, :) = b(i, :) - m * b(j, :);
+            A(i, :) = A(i, :) - m * A(k, :);
+            b(i, :) = b(i, :) - m * b(k, :);
                 
         end
         
     end
     
-    C = A;
+    U = A;
     d = b;
-    
     
 endfunction
 
@@ -175,6 +174,18 @@ function x = solve_system(A, b)
     [C, d] = pivoteo_parcial(A, b);
     
     x = upper_triangular(C, d);
+    
+endfunction
+
+function ok = es_cuadrada(A)
+    
+    [m, n] = size(A);
+    
+    if (m<>n) then
+        ok = %F;
+    else
+        ok = %T;         
+    end
     
 endfunction
 
