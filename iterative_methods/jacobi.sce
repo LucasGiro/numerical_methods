@@ -2,8 +2,6 @@ function x = Jacobi(A, b, x0, eps, iter)
     
     n = size(A, 1);
     
-    s = zeros(n, 1);
-    
     x = x0;
     
     for i = 1:n
@@ -12,7 +10,7 @@ function x = Jacobi(A, b, x0, eps, iter)
             
     end
     
-    k = 0;
+    k = 1;
     
     delta = norm(x - x0); 
     
@@ -34,6 +32,11 @@ function x = Jacobi(A, b, x0, eps, iter)
     
     disp("numero de iteraciones: " + string(k));
     
+endfunction
+
+function T = matriz_iteracion_jacobi(A)
+    [m, n] = size(A);
+    T = eye(m, m) - inverse_diagonal(diag(diag(A)))*A;
 endfunction
 
 function s = closed_Jacobi(A, b, iter)

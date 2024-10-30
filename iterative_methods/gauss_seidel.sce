@@ -16,7 +16,7 @@ function x = Gauss_Seidel(A, b, x0, eps, iter)
     
     delta = norm(x - x0);
     
-    k = 0;
+    k = 1;
     
     while delta > eps && k < iter
         
@@ -40,6 +40,11 @@ function x = Gauss_Seidel(A, b, x0, eps, iter)
     
     disp("numero de iteraciones: " + string(k));
     
+endfunction
+
+function T = matriz_iteracion_gauss_seidel(A)
+    [m, n] = size(A);
+    T = eye(m, m) - inv(tril(A))*A;
 endfunction
 
 function s = closed_Gauss_Seidel(A, b, iter)
