@@ -4,11 +4,13 @@ function [autovec, autoval] = mpotencia(A, z0, eps, iter)
     
     autovec = w0/norm(w0, %inf);
     
-    [m, k] = max(w0);
+    [m, k] = max(abs(w0));
     
     autoval = w0(k)/z0(k);
     
-    i = 0;
+    autovec = w0/autoval; // acelera la convergencia
+    
+    i = 1;
     
     while (i < iter && norm(autovec - z0, %inf) > eps)
         
@@ -18,9 +20,11 @@ function [autovec, autoval] = mpotencia(A, z0, eps, iter)
     
         autovec = w/norm(w, %inf);
         
-        [m, k] = max(w0);
+        [m, k] = max(abs(w0));
         
         autoval = w(k)/z0(k);
+        
+        autovec = w/autoval; // acelera la convergencia
         
         w0 = w;
         
@@ -28,6 +32,6 @@ function [autovec, autoval] = mpotencia(A, z0, eps, iter)
         
     end
    
-   disp("Numero de iteraciones: " + string(i));
+    disp("Numero de iteraciones: " + string(i));
     
 endfunction

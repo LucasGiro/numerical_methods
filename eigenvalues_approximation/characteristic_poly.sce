@@ -11,3 +11,15 @@ function A = A_eps(eps)
     disp(spec(A)); 
     
 endfunction
+
+function lambda = minimo_autovalor(A)
+    
+    [m, n] = size(A);
+    
+    A_I = inv(A);
+    
+    [v, lambda] = mpotencia(A_I, rand(m, 1), 1e-9, 100000);
+    
+    lambda = 1/lambda;
+    
+endfunction
