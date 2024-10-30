@@ -20,7 +20,6 @@ function [Q, R] = QR(A)
         
         v = (A(:, k) - s);
         z = norm(v);
-        s = suma_vec(A, Q, k);
         Q(1:n, k) = v/z;
         R(k, k) = z;
 

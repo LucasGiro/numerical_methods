@@ -79,3 +79,14 @@ function s = solve_system(A, b)
       s = upper_triangular(L', g);
     
 endfunction
+
+
+function x = solve_system_v2(A, b)
+        
+      [R, ind] = Cholesky_U(A);
+      
+      g = lower_triangular(R', b);
+      
+      x = upper_triangular(R, g);
+    
+endfunction
