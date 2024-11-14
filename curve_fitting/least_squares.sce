@@ -38,3 +38,21 @@ function basis = create_poly_basis(n)
     end
     
 endfunction
+
+X = [1; 2; 3; 4; 5; 6; 7; 8; 9; 10; 11; 12; 13; 14; 15; 16; 17; 18; 19; 20];
+Y = [14.5; 16.0; 12.2; 29.1; 23.0; 27.4; 30.2; 36.8; 38.5; 33.1; 45.8; 51.0; 50.1; 53.3; 57.0; 54.2; 60.3; 49.0; 66.2; 52.0];
+
+// Visualización de los datos generados
+clf
+subplot(1,1,1)
+plot(X, Y, 'o');
+xlabel("X");
+ylabel("Y");
+
+p = poly(least_squares(X, Y, create_poly_basis(2)), "x", "coeff");
+
+x_vals = linspace(-10, 30, 100);  // Rango de valores para 'x'
+y_vals = horner(p, x_vals);       // Evaluación del polinomio en cada valor de x
+
+subplot(1,1,1)
+plot2d(x_vals, y_vals, style=2);
