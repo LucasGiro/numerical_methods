@@ -17,13 +17,15 @@ function w = least_squares(x, y, basis_functions)
     
     w = solve_system(A'*A, A'*y);
     
+    disp("Error: " + string(norm(A*w-y)));
+    
 endfunction
 
 function basis = create_poly_basis(n)
     
     basis = list();
     
-    deff("y=p(x)", "y=1");
+    deff("y=p(x)", "y=ones(size(x, 1), 1)");
     basis(1) = p;
     
     for i = 2:n+1
@@ -44,6 +46,46 @@ function basis = create_multivar_linear_basis(n)
         basis(i) = f; 
     end
     
+endfunction
+
+function basis = create_trigonometric_basis(n)
+    basis = list();
+    
+    deff("y=p(x)", "y=ones(size(x, 1), 1)");
+    basis(1) = p;
+    
+    for i = 2:n+1
+         deff("y=p(x)", "y=cos("+string(i-1)+".*x)");
+          basis(i) = p;
+    end
+    
+    for i = n+2:2*n+1
+         deff("y=p(x)", "y=sin("+string(i-1-n)+".*x)");
+          basis(i) = p;
+    end
+    
+endfunction
+
+function basis = create_exponential_basis(n)
+    basis = list();
+    
+    for i = 1:n
+         deff("y=p(x)", "y=exp("+string(i)+"*x)");
+          basis(i) = p;
+    end
+   
+endfunction
+
+function y = evaluate_trigonometric_basis(x, w, n)
+     y = ones(size(x, 2)) * w(1);
+    
+     for i = 2:n+1
+         y = y + w(i)*cos((i-1).*x);
+    end
+    
+    for i = n+2:2*n+1
+         y = y + w(i)*sin((i-1-n).*x);
+    end
 endfunction
 
 /*X = [1; 2; 3; 4; 5; 6; 7; 8; 9; 10; 11; 12; 13; 14; 15; 16; 17; 18; 19; 20];
