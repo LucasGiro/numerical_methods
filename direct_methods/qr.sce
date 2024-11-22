@@ -27,6 +27,33 @@ function [Q, R] = QR(A)
     
 endfunction
 
+function [Q, R] = QR_v2(A)
+    
+    [m, n] = size(A);
+    
+    Q = zeros(m, n);
+    R = zeros(n, n);
+    
+    a1 = A(:, 1);
+    a1_norm = norm(A(:, 1));
+    
+    Q(:, 1) = a1 / a1_norm;
+    R(1, 1) = a1_norm;
+    
+    for k = 2:n
+        
+        v = A(:, k)' * Q(:, 1:k-1);
+        qk = A(:, k) - (v * Q(:, 1:k-1)')';
+        qk_norm = norm(qk);
+        
+        Q(:, k) = qk / qk_norm;
+        R(k, k) = qk_norm;
+        R(1:k-1, k) = v';
+        
+    end
+    
+endfunction
+
 function s = solve_system(A, b)
     
     [Q, R] = QR(A);

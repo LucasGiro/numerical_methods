@@ -1,4 +1,5 @@
 //Recibe los regresores y una lista de funciones base
+funcprot(0);
 
 function A = create_design_matrix(x, basis_functions)
     
@@ -16,6 +17,18 @@ function w = least_squares(x, y, basis_functions)
     A = create_design_matrix(x, basis_functions);
     
     w = solve_system(A'*A, A'*y);
+    
+    disp("Error: " + string(norm(A*w-y)));
+    
+endfunction
+
+function w = least_squares_QR(x, y, basis_functions)
+    
+    A = create_design_matrix(x, basis_functions);
+    
+    [Q, R] = QR_v2(A);
+    
+    w = upper_triangular(R, Q'*y);
     
     disp("Error: " + string(norm(A*w-y)));
     
