@@ -1,4 +1,5 @@
 funcprot(0);
+clear
 
 function w = trapecio(F, a, b, n)
     
@@ -38,24 +39,42 @@ function w = trapecio_v2(F, a, b, n)
 endfunction
 
 
+function w = trapecio_aux(f, a, b, y, n)
+    
+    h = (b - a)/n;
+    
+    x = a:h:b;
+    
+    v = f(x, y);
+    l_v = length(v);
+    
+    if l_v == 1 | l_v == 0 then
+        w=0;
+        return;
+    end
+    
+    v(1) = v(1)/2;
+    
+    v(l_v) = v(l_v)/2;
+    
+    w = h * sum(v);
+    
+endfunction
+
 function w = trapecio_extendida(f, a, b, c, d, n, m)
     
     h = (b-a)/n;
     
     y = a:h:b;
-    deff("z=g0(t)", "z=f(t, "+string(y(1))+")");
-    deff("z=gn(t)", "z=f(t, "+string(y(n+1))+")");
-    w = (trapecio_v2(g0, c(y(1)), d(y(1)), m) + trapecio_v2(gn, c(y(n+1)), d(y(n+1)), m))/2;
+    
+    w = (trapecio_aux(f, c(y(1)), d(y(1)), y(1), m) + trapecio_aux(f, c(y(n+1)), d(y(n+1)), y(n+1), m))/2;
     for i = 2:n
         
-        deff("z=g(t)", "z=f(t, "+string(y(i))+")");
-        
-        w = w + trapecio_v2(g, c(y(i)), d(y(i)), m);
+        w = w + trapecio_aux(f, c(y(i)), d(y(i)), y(i), m);
         
     end
     
     w = h * w;
-    
     
 endfunction
 
