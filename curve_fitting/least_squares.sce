@@ -119,3 +119,36 @@ y_vals = horner(p, x_vals);       // Evaluación del polinomio en cada valor de 
 subplot(1,1,1)
 plot2d(x_vals, y_vals, style=2);
 */
+
+// para graficar en 3d
+
+/*
+X = [0 0; 0 1; 1 0; 2 0; 2 1; 2 2];
+Y = [1.42;1.85;0.78;0.18;0.60;1.05];
+w = least_squares(X, Y, create_multivar_linear_basis(2));
+disp(w);
+deff("z=f(x, y)", "z=w(1)+w(2)*x+w(3)*y");
+
+x_points = X(:, 1); // Primera columna de X
+y_points = X(:, 2); // Segunda columna de X
+z_points = Y;       // Coordenada z
+
+// Graficar los puntos 3D
+clf(); // Limpiar la figura
+scatter3d(x_points, y_points, z_points, 100); // Gráfico de puntos
+
+// Crear un rango para graficar el plano
+x_plane = linspace(-2, 4, 100); // Rango de x
+y_plane = linspace(-2, 4, 100); // Rango de y
+[X_plane, Y_plane] = meshgrid(x_plane, y_plane); // Crear malla de puntos
+Z_plane = f(X_plane, Y_plane); // Evaluar la función del plano en la malla
+
+// Graficar el plano sobre los puntos
+surf(X_plane, Y_plane, Z_plane);
+
+// Etiquetas de los ejes y título
+xlabel("x");
+ylabel("y");
+zlabel("z");
+title("Gráfico 3D de puntos y plano ajustado");
+*/
