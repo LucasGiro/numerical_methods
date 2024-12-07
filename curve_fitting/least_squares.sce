@@ -101,6 +101,24 @@ function y = evaluate_trigonometric_basis(x, w, n)
     end
 endfunction
 
+function basis = create_multivar_poly_basis(n)
+    basis = list();
+    
+    deff("y=f(x)", "y=ones(size(x, 1), 1)");
+    basis(1) = f;
+    deff("y=f(x)", "y=x(:, 1)");
+    basis(2) = f;
+    deff("y=f(x)", "y=x(:, 2)");
+    basis(3) = f;
+    deff("y=f(x)", "y=x(:, 1).^2");
+    basis(4) = f;
+    deff("y=f(x)", "y=x(:, 1).*x(:, 2)");
+    basis(5) = f;
+    deff("y=f(x)", "y=x(:, 2).^2");
+    basis(6) = f;
+    
+endfunction
+
 /*X = [1; 2; 3; 4; 5; 6; 7; 8; 9; 10; 11; 12; 13; 14; 15; 16; 17; 18; 19; 20];
 Y = [14.5; 16.0; 12.2; 29.1; 23.0; 27.4; 30.2; 36.8; 38.5; 33.1; 45.8; 51.0; 50.1; 53.3; 57.0; 54.2; 60.3; 49.0; 66.2; 52.0];
 

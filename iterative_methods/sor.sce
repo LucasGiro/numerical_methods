@@ -58,6 +58,36 @@ function k = radio_espectral(A)
     k = max(abs(spec(A)));
 endfunction
 
+function w = w_optimo_tridiagonal_semdef_pos(A)
+    w = 2/(1+sqrt(1-(radio_espectral(eye(size(A, 1), size(A, 1))-inv(diag(diag(A)))*A))**2));
+endfunction
+
+function r = r_SOR(w)
+    r = radio_espectral(calculo_T(A, w));
+endfunction
+
+function comparar_r_SOR_Gauss_Seidel()
+    
+    w = 0.1:0.01:3;
+    
+    r = [];
+    
+    deff("y=f(x)", "y=ones(length(w), 1)*"+string(r_SOR(1)))
+    
+    Y = f(w);
+     
+    for i = 1:length(w)
+        
+        r(i) = r_SOR(w(i));    
+        
+    end
+    
+    plot2d(w, [r Y], [2 3], leg="Radio espectral Metodo SOR@Radio Espectral Metodo Gauss-Seidel");
+    xlabel("w");
+    ylabel("r");
+    
+endfunction
+
 function m = minimizar_radio_espectral(A, w, step, iter)
     
     T = calculo_T(A, w);
