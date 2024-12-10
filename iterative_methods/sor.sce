@@ -62,23 +62,23 @@ function w = w_optimo_tridiagonal_semdef_pos(A)
     w = 2/(1+sqrt(1-(radio_espectral(eye(size(A, 1), size(A, 1))-inv(diag(diag(A)))*A))**2));
 endfunction
 
-function r = r_SOR(w)
+function r = r_SOR(w, A)
     r = radio_espectral(calculo_T(A, w));
 endfunction
 
-function comparar_r_SOR_Gauss_Seidel()
+function comparar_r_SOR_Gauss_Seidel(A)
     
     w = 0.1:0.01:3;
     
     r = [];
     
-    deff("y=f(x)", "y=ones(length(w), 1)*"+string(r_SOR(1)))
+    deff("y=f(x)", "y=ones(length(w), 1)*"+string(r_SOR(1, A)))
     
     Y = f(w);
      
     for i = 1:length(w)
         
-        r(i) = r_SOR(w(i));    
+        r(i) = r_SOR(w(i), A);    
         
     end
     
